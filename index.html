@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>มีบางอย่างอยากจะบอก...</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="loading-screen" class="screen">
+      <div class="loading-container">
+        <h2 class="loading-text">กำลังโหลดด....</h2>
+        <p class="loading-subtext">แง้นๆๆๆ มีพัสดุมาส่งค้าบบบ...</p>
+        <div class="progress-container">
+          <img src="images/car.png" alt="Car" class="running-car" />
+          <div class="progress-bar"></div>
+        </div>
+        <button
+          id="next-screen-btn"
+          class="btn hidden-btn"
+          style="margin-top: 40px"
+        >
+          แตะเพื่อข้ามหน้าต่อไป
+        </button>
+      </div>
+    </div>
+
+    <div id="main-screen" class="screen hidden">
+      <div class="card">
+        <img src="images/beg.gif" alt="Cute Bear" class="bear-img" />
+        <h1 class="card-title">ถึงแฟนของเค้าา</h1>
+        <p class="card-text">
+          เค้ามีบางอย่างอยากจะบอกดีดี๋นะะะะ...<br />ลองเปิดอ่านดูได้ไหมคั้บบ?
+        </p>
+        <button id="open-letter-btn" class="btn">เปิดอ่านจดหมาย</button>
+      </div>
+    </div>
+
+    <div id="letter-screen" class="screen hidden">
+      <div class="card letter-card">
+        <img src="images/bear.gif" alt="Sorry Bear" class="bear-img-small" />
+        <div class="letter-box">
+          <div class="heart-pin">💌</div>
+          <div id="typewriter-text" class="typewriter-content"></div>
+        </div>
+        <button id="forgive-btn" class="btn purple-btn">
+          เค้ามีอะไรจะให้แฟนด้วยคั้บบ
+        </button>
+      </div>
+    </div>
+
+    <div id="fill-love-screen" class="screen hidden">
+      <div class="card">
+        <h1 class="card-title">เติมรักให้เต็มหัวใจ</h1>
+        <p class="card-text">กดค้างที่หัวใจเพื่อให้เราขยับมาเจอกันนะแฟนน</p>
+
+        <div class="avatar-track">
+          <img src="images/car.png" alt="Boy" class="avatar" id="boy-avatar" />
+          <div id="avatar-spacer" class="dashed-spacer"></div>
+          <img src="images/g.png" alt="Girl" class="avatar" id="girl-avatar" />
+        </div>
+
+        <button id="heart-hold-btn" class="heart-btn">💖</button>
+      </div>
+    </div>
+
+    <div id="flower-screen" class="screen hidden">
+      <div class="card popIn-anim">
+        <img src="images/b.png" alt="Flower" class="bear-img" />
+        <h1 class="card-title">ดอกไม้สำหรับคนแง๋ววเด็กค้าบบ</h1>
+        <p class="card-text">เค้ารักแฟนนที่สุดในโลกเย้ยยยยย</p>
+        <button id="next-to-forgive-btn" class="btn purple-btn">
+          มีอีกคำถามนึงคั้บบ...
+        </button>
+      </div>
+    </div>
+
+    <div id="forgive-screen" class="screen hidden">
+      <div class="card popIn-anim" id="forgive-card-container">
+        <img src="images/h.gif" alt="Hug" class="bear-img" />
+        <h1 class="card-title">หายโกรธนะะค้าบบแฟนน</h1>
+        <p
+          id="forgive-text"
+          class="card-text"
+          style="color: #ff6b81; font-weight: bold"
+        >
+          หายโกรธเค้าเถอะนะคนดี เค้าจะทำตัวน่ารักๆ
+        </p>
+
+        <div class="button-group">
+          <button id="yes-btn" class="btn purple-btn">หายโกรธแล้ว</button>
+          <button id="no-btn" class="btn grey-btn">ยังไม่หาย</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="success-modal" class="screen hidden modal-overlay">
+      <div class="card popIn-anim">
+        <img src="images/love.gif" alt="Happy" class="bear-img" />
+        <h1 class="card-title">เย้! รักดีดี๋ที่สุดในโลกเย้ยยยยย</h1>
+        <p class="card-text">
+          ดีจัยยมากๆ เย้ยยคับแฟนนน เตรียมตัวโดนจุ๊บบแจ้มมเย้ยยยย ! ❤️🎉
+        </p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
