@@ -8,11 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const forgiveScreen = document.getElementById("forgive-screen");
   const successModal = document.getElementById("success-modal");
 
-  // กำหนดตัวแปรปุ่ม
+  // กำหนดตัวแปรปุ่มและเพลง
   const nextScreenBtn = document.getElementById("next-screen-btn");
   const openLetterBtn = document.getElementById("open-letter-btn");
   const forgiveBtn = document.getElementById("forgive-btn");
   const nextToForgiveBtn = document.getElementById("next-to-forgive-btn");
+
+  const bgMusic = document.getElementById("bg-music");
+  const soundToggleBtn = document.getElementById("sound-toggle-btn");
+  let isMusicPlaying = false;
 
   // 1. Loading -> Main
   setTimeout(() => {
@@ -22,6 +26,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nextScreenBtn.addEventListener("click", () => {
     switchScreen(loadingScreen, mainScreen);
+
+    // เริ่มเล่นเพลงเมื่อผู้ใช้กดคลิกครั้งแรก
+    bgMusic
+      .play()
+      .then(() => {
+        isMusicPlaying = true;
+        soundToggleBtn.classList.remove("hidden"); // โชว์ปุ่มเสียง
+      })
+      .catch((e) => console.log("เบราว์เซอร์บล็อกการเล่นเพลงอัตโนมัติ"));
+  });
+
+  // ระบบปุ่มเปิด-ปิดเสียง
+  soundToggleBtn.addEventListener("click", () => {
+    if (isMusicPlaying) {
+      bgMusic.pause();
+      soundToggleBtn.innerText = "🔇";
+    } else {
+      bgMusic.play();
+      soundToggleBtn.innerText = "🔊";
+    }
+    isMusicPlaying = !isMusicPlaying;
   });
 
   const message = `ถึง... ดีดี๋แฟนของเค้า\n\nเค้าขอโทษจริงๆ เรื่องวันนั้น\nเค้ายอมรับว่ามันเกิดจากความไม่รอบคอบของเค้า\nเค้าเสียใจที่ทำให้เธอเสียความรู้สึก เค้ารู้สึกผิดจริงๆครับ\nจากใจเลยนะ\n\nต่อไปเค้าจะระวังให้มากกว่านี้ครับ\nและดูแลความรู้สึกของแฟนให้ดีกว่าเดิมนะะครับ...\n\n- รักดีดี๋ที่สุดเลยนะคั้บ -`;
@@ -41,30 +66,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // ฟีเจอร์: กดค้างเติมรัก (รูปเลื่อนเข้าหากัน)
+  // ฟีเจอร์: กดค้างเติมรัก (Responsive เลื่อนเข้าหากัน)
   // ==========================================
   const heartBtn = document.getElementById("heart-hold-btn");
   const avatarSpacer = document.getElementById("avatar-spacer");
-
-  // ดึงรูปภาพ 2 ฝั่งมาขยับ
   const avatars = document.querySelectorAll(".avatar-track .avatar");
-  const boyAvatar = avatars[0]; // รูปฝั่งซ้าย
-  const girlAvatar = avatars[1]; // รูปฝั่งขวา
+  const boyAvatar = avatars[0];
+  const girlAvatar = avatars[1];
 
   let holdInterval;
   let movement = 0;
-  // กำหนดระยะทางให้วิ่งมาชนกัน (สำหรับมือถือและคอม)
-  const maxMoveDistance = window.innerWidth < 768 ? 85 : 130;
+  // ตั้งค่าระยะทางการวิ่งใหม่ให้สอดคล้องกับขนาดรูปที่เล็กลงในมือถือ
+  const maxMoveDistance = window.innerWidth < 768 ? 75 : 140;
 
   function startHolding(e) {
     if (e) e.preventDefault();
     heartBtn.classList.add("active-press");
-    avatarSpacer.style.opacity = "0"; // ซ่อนเส้นประ
+    avatarSpacer.style.opacity = "0";
 
     holdInterval = setInterval(() => {
-      movement += 2; // ความเร็วในการเลื่อน
+      movement += 2.5;
 
-      // สั่งให้รูปขยับเข้าหากัน
       if (boyAvatar && girlAvatar) {
         boyAvatar.style.transform = `translateX(${movement}px)`;
         girlAvatar.style.transform = `translateX(-${movement}px)`;
@@ -89,14 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
     heartBtn.classList.remove("active-press");
     clearInterval(holdInterval);
 
-    // ถ้าปล่อยมือก่อนชน ให้เด้งกลับที่เดิม
     if (movement < maxMoveDistance) {
       movement = 0;
       if (boyAvatar && girlAvatar) {
         boyAvatar.style.transform = `translateX(0px)`;
         girlAvatar.style.transform = `translateX(0px)`;
       }
-      avatarSpacer.style.opacity = "1"; // โชว์เส้นประกลับมา
+      avatarSpacer.style.opacity = "1";
     }
   }
 
@@ -112,13 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // ฟีเจอร์: ปุ่มหายโกรธนะ (บังคับกดเต็มจอ แก้บัคแล้ว!)
+  // ฟีเจอร์: ปุ่มหายโกรธนะ (ดึงปุ่มออกมาเพื่อให้เต็มจอได้จริง)
   // ==========================================
   const yesBtn = document.getElementById("yes-btn");
   const noBtn = document.getElementById("no-btn");
   const forgiveText = document.getElementById("forgive-text");
-
-  // หาตัวการ์ดเพื่อปลดล็อกแอนิเมชัน
   const forgiveCardContainer =
     document.getElementById("forgive-card-container") ||
     yesBtn.closest(".card");
@@ -147,25 +166,23 @@ document.addEventListener("DOMContentLoaded", () => {
       noBtn.style.display = "none";
       forgiveText.innerText = "บังคับกดแล้ว! ต้องดีกันแล้วแหละ ❤️";
 
-      // 1. ปลดล็อกแอนิเมชันของการ์ด เพื่อให้ปุ่มขยายทะลุหน้าจอได้ 100%
       if (forgiveCardContainer) {
         forgiveCardContainer.style.transform = "none";
         forgiveCardContainer.style.animation = "none";
       }
 
-      // 2. เอาคลาส btn ออก เพื่อลบเอฟเฟกต์ hover ที่ทำให้ปุ่มหด
       yesBtn.classList.remove("btn");
+      yesBtn.classList.add("fullscreen-btn");
 
-      // 3. บังคับสไตล์ให้เต็มหน้าจอด้วย JS ทับไปเลย
       yesBtn.style.position = "fixed";
       yesBtn.style.top = "0";
       yesBtn.style.left = "0";
       yesBtn.style.width = "100vw";
       yesBtn.style.height = "100vh";
-      yesBtn.style.zIndex = "9999";
+      yesBtn.style.zIndex = "99999";
       yesBtn.style.borderRadius = "0";
       yesBtn.style.margin = "0";
-      yesBtn.style.transform = "none"; // รีเซ็ตการขยายก่อนหน้า
+      yesBtn.style.transform = "none";
       yesBtn.style.fontSize = "3rem";
       yesBtn.style.display = "flex";
       yesBtn.style.justifyContent = "center";
@@ -175,22 +192,20 @@ document.addEventListener("DOMContentLoaded", () => {
       yesBtn.style.border = "none";
       yesBtn.style.cursor = "pointer";
 
-      yesBtn.innerHTML = "หายโกรธแล้วคั้บบบ! ✨";
+      yesBtn.innerHTML = "หายโกรธแล้ว";
+
+      // ดึงปุ่มออกมาไว้นอกการ์ด เพื่อไม่ให้โดนกรอบบัง
+      document.body.appendChild(yesBtn);
     }
   });
 
   // 5. กดปุ่ม "หายโกรธแล้ว" -> โชว์ Modal สำเร็จ!
   yesBtn.addEventListener("click", () => {
     if (noClickCount >= 3) {
-      // ถ้าปุ่มมันเต็มจออยู่ ให้ซ่อนปุ่มทิ้งไปเลยตอนกดเสร็จ
       yesBtn.style.display = "none";
     }
     successModal.classList.remove("hidden");
   });
-
-  // ==========================================
-  // ฟังก์ชันเสริม (Helper Functions)
-  // ==========================================
 
   function switchScreen(hideScreen, showScreen, callback = null) {
     hideScreen.style.opacity = "0";

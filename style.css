@@ -189,11 +189,8 @@ body {
   box-shadow: 0 10px 20px rgba(69, 104, 220, 0.4);
 }
 
-/* =========================================
-   หน้าจดหมายง้อ (Letter Screen)
-   ========================================= */
+/* --- หน้าจดหมายง้อ (Letter Screen) --- */
 .letter-card {
-  /* แอนิเมชันเลื่อนขึ้นมาแล้วเด้ง */
   animation: slideUpBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
@@ -213,7 +210,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* กล่องกระดาษจดหมายลายจุด */
 .letter-box {
   background-color: #fffdf5;
   background-image: radial-gradient(#d4c4e2 1.5px, transparent 1.5px);
@@ -224,7 +220,7 @@ body {
   position: relative;
   margin-bottom: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  min-height: 250px; /* ฟิกซ์ความสูงไว้ กล่องจะได้ไม่หด/ขยายตอนตัวหนังสือพิมพ์ */
+  min-height: 250px;
 }
 
 .heart-pin {
@@ -251,8 +247,129 @@ body {
   box-shadow: 0 8px 15px rgba(155, 89, 182, 0.3);
 }
 
+/* --- หน้า 4: เติมรักให้เต็มหัวใจ --- */
+.avatar-track {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
+  padding: 0 20px;
+}
+
+/* ขนาดรูปบนหน้าจอคอม */
+.avatar {
+  width: 150px;
+  height: 150px;
+  z-index: 2;
+  object-fit: contain;
+  transition: transform 0.3s ease-out;
+}
+
+.dashed-spacer {
+  height: 2px;
+  background-image: linear-gradient(to right, #ccc 50%, transparent 50%);
+  background-position: top;
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+  width: 100%;
+  margin: 0 10px;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.heart-btn {
+  font-size: 3.5rem;
+  background: #ffecf0;
+  border: none;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  box-shadow: 0 10px 25px rgba(255, 107, 129, 0.4);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.heart-btn.active-press {
+  transform: scale(1.15);
+  box-shadow: 0 15px 35px rgba(255, 107, 129, 0.6);
+  background: #ffe0e6;
+}
+
+/* --- หน้า 6: ปุ่มหายโกรธ --- */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.grey-btn {
+  background: #b2bec3;
+  box-shadow: 0 8px 15px rgba(178, 190, 195, 0.3);
+}
+
+.popIn-anim {
+  animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+
+#yes-btn,
+#no-btn {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ปุ่มขยายเต็มจอตอนโดนบังคับ */
+.fullscreen-btn {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99999 !important; /* ดันไปอยู่บนสุด */
+  border-radius: 0 !important;
+  font-size: 3rem !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+/* --- ปุ่มเปิด-ปิดเสียง --- */
+.sound-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition:
+    transform 0.2s,
+    background 0.3s;
+}
+
+.sound-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.9);
+}
+
 /* =========================================
-   📱 RESPONSIVE DESIGN
+   📱 RESPONSIVE DESIGN (แก้รูปล้นจอในมือถือ)
    ========================================= */
 @media screen and (max-width: 768px) {
   .loading-container,
@@ -290,7 +407,6 @@ body {
     font-size: 1.1rem;
   }
 
-  /* ส่วนที่เพิ่มสำหรับมือถือหน้าจดหมาย */
   .letter-box {
     padding: 20px 15px;
     min-height: 280px;
@@ -299,122 +415,18 @@ body {
     font-size: 1rem;
     line-height: 1.6;
   }
-}
 
-/* =========================================
-   หน้า 4: เติมรักให้เต็มหัวใจ
-   ========================================= */
-.avatar-track {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin: 40px 0;
-  /* เพิ่ม padding ด้านข้างเพื่อให้มีพื้นที่วิ่งเข้าหากัน */
-  padding: 0 30px;
-}
-.avatar {
-  width: 200px;
-  height: 200px;
-  /* ลบ border-radius และ border ออก ถ้าไฟล์รูปของคุณเป็นตัวการ์ตูนไดคัทมาแล้ว (ไม่มีพื้นหลัง) 
-     แต่ถ้ารูปยังเป็นสี่เหลี่ยมอยู่ ให้คง border-radius: 50%; ไว้ครับ */
-  /* border-radius: 50%; */
-  /* border: 4px solid #fff; */
-
-  /* ลบ background-color: #fff; ออก เพื่อให้พื้นหลังใส */
-
-  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); */
-  z-index: 2;
-  object-fit: contain; /* เปลี่ยนเป็น contain เพื่อให้เห็นรูปเต็มตัว */
-
-  /* เพิ่ม transition เพื่อให้เวลารูปเด้งกลับ มันจะสมูท ไม่กระตุก */
-  transition: transform 0.3s ease-out;
-}
-
-.dashed-spacer {
-  height: 2px;
-  background-image: linear-gradient(to right, #ccc 50%, transparent 50%);
-  background-position: top;
-  background-size: 10px 2px;
-  background-repeat: repeat-x;
-  width: 100%;
-  margin: 0 10px;
-  z-index: 1;
-  /* เพิ่ม transition ให้เส้นประเวลาจางหาย */
-  transition: opacity 0.3s ease;
-}
-
-.heart-btn {
-  font-size: 3.5rem;
-  background: #ffecf0;
-  border: none;
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  box-shadow: 0 10px 25px rgba(255, 107, 129, 0.4);
-  cursor: pointer;
-  transition: transform 0.1s ease;
-  /* ป้องกันการคลุมดำและซูมจอเวลากดค้างในมือถือ */
-  user-select: none;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* เอฟเฟกต์ตอนกดปุ่มหัวใจค้างไว้ */
-.heart-btn.active-press {
-  transform: scale(1.15);
-  box-shadow: 0 15px 35px rgba(255, 107, 129, 0.6);
-  background: #ffe0e6;
-}
-
-/* =========================================
-   หน้า 6: ปุ่มหายโกรธ / ยังไม่หาย
-   ========================================= */
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-  /* ลบ position: relative; ออก เพื่อให้ปุ่มขยายทะลุการ์ดได้ */
-}
-
-.grey-btn {
-  background: #b2bec3;
-  box-shadow: 0 8px 15px rgba(178, 190, 195, 0.3);
-}
-
-/* ใช้คลาสนี้เวลาต้องการให้การ์ดเด้งเข้ามาใหม่ */
-.popIn-anim {
-  animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-/* =========================================
-   หน้า 7: Modal สำเร็จ
-   ========================================= */
-.modal-overlay {
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  backdrop-filter: blur(5px);
-}
-
-/* เพิ่มให้ปุ่ม Yes ขยายแบบนุ่มนวล */
-#yes-btn,
-#no-btn {
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.fullscreen-btn {
-  position: fixed !important; /* บังคับให้อยู่ติดขอบจอ */
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important; /* กว้าง 100% ของหน้าจอ */
-  height: 100vh !important; /* สูง 100% ของหน้าจอ */
-  z-index: 9999 !important; /* ให้อยู่บนสุด */
-  border-radius: 0 !important; /* ลบความโค้งมนออก */
-  font-size: 3rem !important; /* ขยายฟอนต์ */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* แอนิเมชันตอนขยาย */
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  /* ย่อขนาดรูปโปรไฟล์ในหน้าเติมรักเพื่อไม่ให้ล้นมือถือ */
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+  .avatar-track {
+    padding: 0 10px; /* ลดระยะห่างด้านข้าง */
+  }
+  .heart-btn {
+    width: 90px;
+    height: 90px;
+    font-size: 2.5rem;
+  }
 }
